@@ -256,7 +256,6 @@ public class SendHttpRequestService {
                 }
             }
             stringUrl = sb.toString();
-            System.out.println(stringUrl);
         }
         try {
             URL url = new URL(stringUrl);
