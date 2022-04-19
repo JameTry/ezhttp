@@ -46,6 +46,7 @@ mvn install:install-file -Dfile=ezhttp-1.0.jar -DgroupId=work.jame -DartifactId=
 -   sendPost(String uri) 发送无参的post请求
 -   sendPost(String uri,String jsonData) 发送带参数的post请求
 
+下图只是为了演示效果,在实际使用中需要注意跨域问题,使用`@CrossOrigin`注解或配置全局跨域
 
 ![](https://raw.githubusercontent.com/JameTry/ezhttp/master/src/img/1.png)
 ![](https://raw.githubusercontent.com/JameTry/ezhttp/master/src/img/2.png)
