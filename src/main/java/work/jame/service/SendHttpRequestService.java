@@ -237,9 +237,9 @@ public class SendHttpRequestService {
 
 
         if (httpProperties.getPort() != null) {
-            stringUrl = StringUtil.amendmentUrl("http://" + httpProperties.getPrefixUrl() + ":" + httpProperties.getPort() + "/", requestUri);
+            stringUrl = StringUtil.amendmentUrl("http://" + httpProperties.getPrefixUrl() + ":" + httpProperties.getPort(), requestUri);
         } else {
-            stringUrl = StringUtil.amendmentUrl("http://" + httpProperties.getPrefixUrl() + "/", requestUri);
+            stringUrl = StringUtil.amendmentUrl("http://" + httpProperties.getPrefixUrl(), requestUri);
         }
         if (requestParams != null && requestParams.size() != 0) {
             StringBuilder sb = new StringBuilder(stringUrl);

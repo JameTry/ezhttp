@@ -10,13 +10,14 @@ public class StringUtil {
 
     /**
      * 修正路径
+     *
      * @param prefixUrl
      * @param requestPath
      * @return
      */
     public static String amendmentUrl(String prefixUrl, String requestPath) {
-        if (prefixUrl.endsWith("/") && requestPath.startsWith("/")) {
-            return prefixUrl + requestPath.substring(1);
+        if (!requestPath.startsWith("/")) {
+            return prefixUrl + "/" + requestPath;
         }
         return prefixUrl + requestPath;
     }
