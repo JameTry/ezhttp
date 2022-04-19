@@ -10,6 +10,8 @@ ezhttp:
   port: 6789 #设置请求端口
 ```
 
+
+
 ## 快速开始
 
 首先将下载的项目使用maven package打包,找到jar包位置在路径栏中输入cmd,打开cmd到当前路径下
@@ -20,7 +22,7 @@ ezhttp:
 mvn install:install-file -Dfile=ezhttp-1.0.jar -DgroupId=work.jame -DartifactId=ezhttp-spring-boot-starter -Dversion=1.0 -Dpackaging=jar
 ```
 
-之后在项目中导入即可
+在项目中导入即可
 
 ```xml
 <dependency>
@@ -28,6 +30,13 @@ mvn install:install-file -Dfile=ezhttp-1.0.jar -DgroupId=work.jame -DartifactId=
     <artifactId>ezhttp-spring-boot-starter</artifactId>
     <version>1.0</version>
 </dependency>
+```
+
+在被spring管理的bean中注入即可使用
+
+```java
+    @Autowired
+    private SendHttpRequestService httpService;
 ```
 
 ## Api
