@@ -22,7 +22,7 @@ ezhttp:
 mvn install:install-file -Dfile=ezhttp-1.0.jar -DgroupId=work.jame -DartifactId=ezhttp-spring-boot-starter -Dversion=1.0 -Dpackaging=jar
 ```
 
-在项目中导入即可
+导入pom文件
 
 ```xml
 <dependency>
