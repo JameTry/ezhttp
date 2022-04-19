@@ -1,5 +1,6 @@
 # ezhttp
 对java原生的http请求进行封装,springboot-starter的方式更加方便,使用的jdk版本为1.8,maven管理
+
 在application.properties或yml文件中配置短短几行即可使用,目前仅支持get/post的提交请求
 最少只需要配置两个参数
 
