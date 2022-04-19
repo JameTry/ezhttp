@@ -4,6 +4,7 @@ package work.jame.service;
 import work.jame.properties.HttpProperties;
 import work.jame.util.RequestType;
 import work.jame.util.Result;
+import work.jame.util.StringUtil;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -23,10 +24,6 @@ import java.util.UUID;
  * @date : 2022-04-19 12:34
  **/
 public class SendHttpRequestService {
-
-    private final static String BOUNDARY = UUID.randomUUID().toString().toLowerCase().replaceAll("-", "");// 边界标识
-    private final static String PREFIX = "--";// 必须存在
-    private final static String LINE_END = "\r\n";
 
 
     private final HttpProperties httpProperties;
@@ -146,15 +143,20 @@ public class SendHttpRequestService {
     }
 
 
+    /**
+     * 发送post请求文件-暂时未实现
+     * @param urlString
+     * @param file
+     * @return
+     */
     public Result sendPostFile(String urlString, File file) {
-
         Result result = new Result();
         StringBuffer sb = new StringBuffer();
         try {
             OutputStream out = null;
             InputStream in = null;
-            DataOutputStream outWrite ;
-            BufferedReader buffReader ;
+            DataOutputStream outWrite;
+            BufferedReader buffReader;
             String line;
 
             HttpURLConnection conn = createHttpURLConnection(urlString, null);
@@ -197,111 +199,6 @@ public class SendHttpRequestService {
 
     }
 
-//    /**
-//     * 发送文件的post
-//     *
-//     * @param requestUri
-//     * @param files
-//     * @return
-//     */
-//    public Result sendPostFile(String requestUri, Map<String, File> files) {
-//        InputStream inputStream;
-//        OutputStream outputStream;
-//        Result result = null;
-//        try {
-//            HttpURLConnection connection = createHttpURLConnection(requestUri, null);
-//            connection.setDoInput(true);
-//            connection.setDoOutput(true);
-//            outputStream = connection.getOutputStream();
-//            StringBuilder sb = new StringBuilder();
-//
-//            for (String key : files.keySet()) {
-//                File file = files.get(key);
-//                sb.append(PREFIX).append(BOUNDARY).append(LINE_END);
-//                sb.append("Content-Disposition: form-data; name=\"")
-//                        .append(key).append("\"; filename=\"")
-//                        .append(file.getName()).append("\"")
-//                        .append(LINE_END);
-//                sb.append("Content-Type:")
-//                        .append(getContentType(file))
-//                        .append(LINE_END);
-//                sb.append(LINE_END);
-//
-//                outputStream.write(sb.toString().getBytes());
-//                inputStream = new FileInputStream(file);
-//                byte[] buffer = new byte[1024 * 1024];
-//                int len;
-//                while ((len = inputStream.read(buffer)) != -1) {
-//                    outputStream.write(buffer, 0, len);
-//                }
-//                outputStream.write(LINE_END.getBytes());
-//                outputStream.flush();
-//            }
-//            //请求结束
-//            String endTarget = PREFIX + BOUNDARY + PREFIX + LINE_END;
-//            outputStream.write(endTarget.getBytes());
-//            outputStream.flush();
-//            result = getResult(connection);
-//
-//
-//        } catch (Exception unsupportedEncodingException) {
-//            unsupportedEncodingException.printStackTrace();
-//        }
-//
-//        return result;
-//
-//    }
-
-
-    /**
-     * 获取文件的类型
-     *
-     * @param file
-     * @return
-     * @throws Exception
-     */
-    public static String getContentType(File file) throws Exception {
-        String streamContentType = "application/octet-stream";
-        String fileNameTmp = file.getName().toLowerCase(Locale.ENGLISH);
-        if (fileNameTmp.endsWith("csv")) {
-            return "text/csv";
-        }
-        if (fileNameTmp.endsWith("txt")) {
-            return "text/plain";
-        }
-        if (fileNameTmp.endsWith("gif")) {
-            return "image/gif";
-        }
-        if (fileNameTmp.endsWith("jpg") || fileNameTmp.endsWith("jpeg") || fileNameTmp.endsWith("jpe")) {
-            return "image/jpeg";
-        }
-        if (fileNameTmp.endsWith("zip")) {
-            return "application/zip";
-        }
-        if (fileNameTmp.endsWith("rar")) {
-            return "application/rar";
-        }
-        if (fileNameTmp.endsWith("doc")) {
-            return "application/msword";
-        }
-        if (fileNameTmp.endsWith("ppt")) {
-            return "application/vnd.ms-powerpoint";
-        }
-        if (fileNameTmp.endsWith("xls")) {
-            return "application/vnd.ms-excel";
-        }
-        if (fileNameTmp.endsWith("html") || fileNameTmp.endsWith("htm")) {
-            return "text/html";
-        }
-        if (fileNameTmp.endsWith("tif") || fileNameTmp.endsWith("tiff")) {
-            return "image/tiff";
-        }
-        if (fileNameTmp.endsWith("pdf")) {
-            return "application/pdf";
-        }
-        return streamContentType;
-    }
-
 
     private Result getResult(HttpURLConnection connection) {
         InputStream inputStream = null;
@@ -337,10 +234,12 @@ public class SendHttpRequestService {
     private HttpURLConnection createHttpURLConnection(String requestUri, Map<String, String> requestParams) throws UnsupportedEncodingException {
         HttpURLConnection connection = null;
         String stringUrl;
+
+
         if (httpProperties.getPort() != null) {
-            stringUrl = "http://" + httpProperties.getPrefixUrl() + ":" + httpProperties.getPort() + "/" + requestUri;
+            stringUrl = StringUtil.amendmentUrl("http://" + httpProperties.getPrefixUrl() + ":" + httpProperties.getPort() + "/", requestUri);
         } else {
-            stringUrl = "http://" + httpProperties.getPrefixUrl() + "/" + requestUri;
+            stringUrl = StringUtil.amendmentUrl("http://" + httpProperties.getPrefixUrl() + "/", requestUri);
         }
         if (requestParams != null && requestParams.size() != 0) {
             StringBuilder sb = new StringBuilder(stringUrl);
